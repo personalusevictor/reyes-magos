@@ -1,0 +1,51 @@
+[
+    {
+        "id": 1,
+        "nombre": "Sony WH1000XM5",
+        "foto": "img/wh1000xm5.png",
+        "descripcion": "Auriculares inalámbricos con cancelación de ruido y hasta 30 horas de duración.",
+        "enlace": "https://www.pccomponentes.com/sony-wh1000xm5bce7-auriculares-inalambricos-con-cancelacion-de-ruido-negros"
+    },
+    {
+        "id": 2,
+        "nombre": "iPad Air 11'' 256GB/512GB",
+        "foto": "img/iPad-Air.png",
+        "descripcion": "iPad Air 11'' 256GB/512GB para realizar mis tareas, programar y ver mis series.",
+        "enlace": "https://www.pccomponentes.com/tablet-apple-ipad-air-2025-wifi-11-256gb-gris-espacial"
+    },
+    {
+        "id": 3,
+        "nombre": "MaGo Power Bank",
+        "foto": "img/powerbank.png",
+        "descripcion": "Cargador portatil para iPhone (no tiene porque ser este, pongo este por poner uno que me haya interesado)",
+        "enlace": "https://www.pccomponentes.com/anker-maggo-powerbank-10000mah-magnetica-qi2-ultra-slim-negra?srsltid=AfmBOoqOC1ZpJlnOCv6RxaeZvp18swgTrTizLzlJoMjf5mRlSWbeY0qN"
+    },
+    {
+        "id": 4,
+        "nombre": "Soporte para iPad",
+        "foto": "img/soporteiPad.png",
+        "descripcion": "Soporte de Aluminitio ajustable para iPad Air 11'' (En caso de que los reyes magos me regalen el iPad), 1ª Opción Alixpress",
+        "enlace": "https://es.aliexpress.com/item/1005010450406298.html?"
+    },
+    {
+        "id": 5,
+        "nombre": "Funda iPhone 14 Plus",
+        "foto": "img/fundaiphone.png",
+        "descripcion": "Funda para iPhone 14 Plus (Este enlace de compra es uno que me gusto, aunque si no lo consiguen tampoco tiene porque ser este), 1ª Opción Aliexpress",
+        "enlace": "https://es.aliexpress.com/item/1005008932520481.html?"
+    },
+    {
+        "id": 6,
+        "nombre": "UGREEN KVM 2PC's",
+        "foto": "img/kvm.png",
+        "descripcion": "Convertidor para poder utilizar el mismo teclado, ratón, pantalla, cascos, etc... tanto para el ordenador como para el Macbook",
+        "enlace": "https://es.aliexpress.com/item/1005008937036418.html?"
+    },
+    {
+        "id": 7,
+        "nombre": "Pijamas y Camisas",
+        "foto": "img/camisaspijamas.png",
+        "descripcion": "Pijamas y camisas, que esta personita siempre se pone los mismos, los pijamas si pueden ser un poquito más anchos mejor 😄",
+        "enlace": "#" 
+    }
+]

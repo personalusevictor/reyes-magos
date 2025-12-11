@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🎁 Lista de Reyes de Víctor 🎄</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Nieve animada -->
+    <div class="snow"></div>
+
+    <!-- Header -->
+    <header class="brand-header">
+      <h1 class="brand-title">
+        <span class="brand-icon">🎄</span>
+        <span class="brand-name">Reyes de Víctor</span>
+      </h1>
+      <p class="brand-tagline">
+        Tus deseos navideños, todos en un solo lugar ✨
+      </p>
+      <div class="reyes-container">
+        <div class="reyes-icon">⭐</div>
+        <p class="reyes-text">
+          Queridos Reyes Magos:<br /><br />
+          Sé que no todos los deseos pueden hacerse realidad, pero este proyecto
+          nace de la ilusión de practicar lo aprendido en mi curso y convertirlo
+          en algo bonito, útil y con propósito real.
+          <br /><br />
+          Gracias por inspirarme a seguir creciendo cada día a todos los
+          afectados por este enlace.
+        </p>
+      </div>
+    </header>
+    <!-- Botón fijo de información -->
+    <button class="info-btn-premium" id="openInfoModal">i</button>
+
+    <!-- Modal de información -->
+    <div class="info-modal" id="infoModal">
+      <div class="info-content">
+        <span class="info-close" id="closeInfoModal">&times;</span>
+
+        <h2 class="info-title" id="modalinfoTitle"></h2>
+
+        <p class="info-text">
+          Querida familia,<br /><br />
+          Sé que no todos los regalos que aparecen aquí serán posibles de
+          cumplir, y lo más importante para mí es que podamos disfrutar juntos
+          estas fechas. No quiero que nadie se sienta obligado ni que esto se
+          interprete como exigencias; simplemente quería compartir algunas ideas
+          que me harían ilusión y que pueden servir como guía para vosotros.<br /><br />
+          Muchas gracias por siempre pensar en mí y por todos los momentos
+          compartidos. Cada detalle, grande o pequeño, será recibido con mucha
+          ilusión y cariño.<br /><br />Sí la página contiene fallos, malos
+          enlaces, imagenes inapropiadas de sus propios productos, no dudes en
+          decirmelo<br /><br />
+          ¡Os quiero mucho!
+        </p>
+
+        <button class="btn" id="closeInfoBtn">¡Gracias!</button>
+      </div>
+    </div>
+
+    <div class="filters-wrapper">
+      <div class="search-box">
+        <input
+          id="search"
+          placeholder="🔍 Buscar regalo..."
+          autocomplete="off"
+        />
+        <div id="regalos-suggestions" class="suggestions-panel"></div>
+      </div>
+
+      <div class="sort-box">
+        <select id="sort">
+          <option value="">Ordenar por</option>
+          <option value="nombre">Nombre</option>
+          <option value="likes">Likes</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Contenedor de productos -->
+    <main id="gift-container"></main>
+
+    <!-- Footer -->
+    <footer>
+      <section class="whatsapp-section">
+        <h3>¿Tienes dudas o quieres hablar conmigo?</h3>
+        <a
+          class="whatsapp-button"
+          href="https://wa.me/3460157991?text="
+          target="_blank"
+        >
+          <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" />
+          Enviar mensaje por WhatsApp a Víctor
+        </a>
+      </section>
+      <p>Creado con ❤️ por Víctor Martín Pérez</p>
+    </footer>
+
+    <!-- Modal -->
+    <div id="modal" class="modal">
+      <div class="modal-content">
+        <span id="modal-close" class="modal-close">&times;</span>
+        <img id="modal-img" src="" alt="" />
+        <h2 id="modal-title"></h2>
+        <p id="modal-description"></p>
+        <a id="modal-link" href="" target="_blank" class="btn"
+          >Enlace de Compra</a
+        >
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

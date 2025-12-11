@@ -1,0 +1,784 @@
+/* Reset y body */
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+    font-family:'Roboto',sans-serif;
+    background: linear-gradient(to bottom,#1c1c1c,#2c1c1c);
+    color:#eee;
+    min-height:100vh;
+    overflow-x:hidden;
+}
+
+/* Header */
+/* ---------- Header ---------- */
+header {
+    text-align: center;
+    padding: 60px 20px 40px;
+    background: linear-gradient(135deg, #1c1c1c, #2c1c1c);
+}
+
+/* Header estilo marca premium */
+.brand-header {
+    text-align: center;
+    padding: 60px 20px 40px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Animación de entrada para logo */
+.brand-title {
+    font-family: 'Pacifico', cursive;
+    font-size: 3.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    background: linear-gradient(120deg, #ff4b5c, #ff8787);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: fadeInUp 1s ease forwards;
+    opacity: 0;
+}
+
+/* Iconos decorativos */
+.brand-icon {
+    font-size: 3.5rem;
+    transition: transform 0.4s ease, filter 0.4s ease;
+}
+
+.brand-title:hover .brand-icon {
+    transform: rotate(-10deg) scale(1.15);
+    filter: drop-shadow(0 0 6px #ff8787);
+}
+
+/* Nombre de marca */
+.brand-name {
+    text-shadow: 2px 2px 15px rgba(255,75,92,0.5);
+    transition: text-shadow 0.4s ease;
+}
+
+.brand-title:hover .brand-name {
+    text-shadow: 2px 2px 25px rgba(255,75,92,0.7);
+}
+
+/* Tagline elegante */
+.brand-tagline {
+    font-size: 1.4rem;
+    color: #f0e6e6;
+    opacity: 0.85;
+    margin-top: 10px;
+    font-style: italic;
+    letter-spacing: 0.5px;
+    transition: color 0.3s, transform 0.3s;
+}
+
+.brand-tagline:hover {
+    color: #ff8787;
+    transform: translateY(-2px);
+}
+
+/* Animación sutil de entrada */
+@keyframes fadeInUp {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- Buscador ---------- */
+/* --- Filtros Wrapper --- */
+.filters-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin: 20px 0;
+    position: relative;
+}
+
+/* --- Buscador premium --- */
+.search-box {
+    position: relative;
+    width: 300px;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 12px 20px;
+    border-radius: 25px;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    background: #2c1c1c;
+    color: #eee;
+    box-shadow: 0 4px 15px rgba(255,75,92,0.4);
+    transition: 0.3s ease;
+    z-index: 10;
+}
+
+.search-box input:focus {
+    box-shadow: 0 6px 20px rgba(255,75,92,0.6);
+    transform: scale(1.02);
+}
+
+/* --- Panel de sugerencias tipo mini-tarjetas --- */
+.suggestions-panel {
+    display: none;
+    opacity: 0;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    max-height: 300px;
+    overflow-y: auto;
+    background: rgba(44, 28, 28, 0.95);
+    backdrop-filter: blur(8px);
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    margin-top: 8px;
+    padding: 10px 0;
+    z-index: 20;
+    -ms-overflow-style: none;  /* IE y Edge */
+    scrollbar-width: none;     /* Firefox */
+    transform: opcity 0.2s ease;
+}
+
+/* Cada sugerencia tipo tarjeta */
+.suggestions-panel .suggestion {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 12px;
+    transition: 0.3s;
+    color: #eee;
+    font-weight: 500;
+    background: rgba(60, 25, 25, 0.6);
+}
+
+.suggestions-panel .suggestion img {
+    width: 35px;
+    height: 35px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 0 8px rgba(255,75,92,0.4);
+}
+
+.suggestions-panel .suggestion:hover {
+    background: rgba(255, 75, 92, 0.25);
+    transform: scale(1.02);
+    box-shadow: 0 5px 15px rgba(255,75,92,0.4);
+}
+
+/* Mensaje “no resultados” */
+.suggestions-panel .empty {
+    padding: 10px 15px;
+    color: #aaa;
+    font-style: italic;
+    cursor: default;
+}
+
+/* Animación fadeIn */
+.suggestions-panel.show {
+    display: block;
+    animation: fadeIn 0.25s ease forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+
+/* --- Selector ordenar premium --- */
+.sort-box select {
+    padding: 12px 20px;
+    border-radius: 25px;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    background: #2c1c1c;
+    color: #eee;
+    box-shadow: 0 4px 15px rgba(255,75,92,0.4);
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.sort-box select:hover, .sort-box select:focus {
+    box-shadow: 0 6px 20px rgba(255,75,92,0.6);
+    transform: scale(1.02);
+}
+
+/* --- Animación de apertura de panel sugerencias --- */
+.search-box.active #regalos-suggestions {
+    display: block;
+    animation: fadeIn 0.3s ease forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Responsive --- */
+@media(max-width: 600px){
+    .filters-wrapper { flex-direction: column; gap: 15px; }
+    .search-box, .sort-box { width: 90%; }
+}
+
+/* Responsive */
+@media(max-width: 650px){
+    .filters-wrapper {
+        flex-direction: column;
+        gap: 15px;
+        padding: 15px;
+    }
+
+    .search-box input, .sort-box select {
+        width: 90%;
+    }
+}
+
+/* Contenedor de tarjetas */
+#gift-container { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:20px; padding:20px; }
+
+/* Tarjeta base (tu referencia) */
+.gift-card {
+    background: rgba(50, 20, 20, 0.7);
+    backdrop-filter: blur(8px);
+    border-radius: 18px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.4s ease, box-shadow 0.4s ease, background 0.4s ease;
+    cursor: pointer;
+}
+
+/* Fondo radial animado */
+.gift-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,75,92,0.2) 0%, transparent 70%);
+    transform: rotate(45deg) translate(-100%, -100%);
+    transition: transform 0.5s ease;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.gift-card:hover::before {
+    transform: rotate(45deg) translate(0,0);
+}
+
+.gift-card:hover {
+    transform: translateY(-8px) scale(1.05);
+    box-shadow: 0 15px 35px rgba(255,75,92,0.6);
+    background: rgba(60, 25, 25, 0.85);
+}
+
+/* Imagen */
+.gift-img {
+    width: 100%;
+    height: auto;
+    max-height: 300px;
+    object-fit: contain;
+    border-radius: 15px;
+
+    /* Borde decorativo */
+    border: 3px solid transparent;
+    padding: 5px;
+    background: linear-gradient(45deg, #ff4b5c, #720b0b) border-box;
+    background-clip: padding-box, border-box;
+    box-shadow: 0 0 15px rgba(255, 75, 92, 0.5);
+
+    transition: transform 0.4s ease, box-shadow 0.4s ease, border 0.4s ease;
+    z-index: 1;
+    position: relative;
+}
+
+.gift-card:hover .gift-img {
+    transform: scale(1.08) rotate(-0.5deg);
+    box-shadow: 0 10px 25px rgba(255,75,92,0.6);
+    border: 3px solid #ff8787;
+}
+
+
+/* Título */
+.title {
+    font-size: 1.4rem;
+    margin-top: 10px;
+    font-weight: bold;
+    color: #ff6b6b;
+    transition: text-shadow 0.4s ease, color 0.4s ease;
+}
+
+.gift-card:hover .title {
+    text-shadow: 2px 2px 10px rgba(255, 75, 92, 0.8);
+    color: #ff8787;
+}
+
+/* Descripción */
+.description {
+    transition: color 0.4s ease;
+}
+
+.gift-card:hover .description {
+    color: #f8dede;
+}
+
+/* Botones */
+.button-area { display:flex; justify-content:space-between; margin-top:15px; }
+.btn { background:#ff4b5c; color:white; padding:10px 15px; border-radius:10px; font-weight:bold; cursor:pointer; text-decoration:none; border:none; transition:0.3s; z-index:1; position:relative; }
+.btn:hover { background:#ff6b6b; }
+
+/* WhatsApp flotante */
+.floating-whatsapp { position:fixed; bottom:25px; right:25px; background:#25d366; padding:18px; border-radius:50%; font-size:1.8rem; text-decoration:none; color:white; box-shadow:0 0 12px rgba(0,0,0,0.4); }
+
+/* Footer */
+footer { text-align:center; padding:40px 20px; opacity:0.8; }
+
+/* ---------- Modal Moderno ---------- */
+.modal {
+    display: none;  /* ⚠️ Solo esto */
+    position: fixed;
+    z-index: 9999;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(28,28,28,0.95);
+    backdrop-filter: blur(12px);
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto;
+    transition: opacity 0.4s ease;
+}
+
+
+/* Mostrar modal con animación */
+.modal.show {
+    display: flex;
+    animation: modalFadeIn 0.4s forwards;
+}
+
+@keyframes modalFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Contenido del modal */
+.modal-content {
+    background: linear-gradient(145deg, rgba(35,15,15,0.95), rgba(50,20,20,0.95));
+    border-radius: 25px;
+    padding: 25px 30px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 90vh;
+    text-align: center;
+    color: #eee;
+    position: relative;
+    transform: translateY(-40px) scale(0.9);
+    opacity: 0;
+    transition: transform 0.4s ease, opacity 0.4s ease;
+    box-shadow: 0 20px 50px rgba(255,75,92,0.4), inset 0 0 20px rgba(255,255,255,0.05);
+}
+
+/* Animación al mostrar */
+.modal.show .modal-content {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+}
+
+/* Botón de cierre */
+.modal-close {
+    position: absolute;
+    top: 15px; right: 15px;
+    width: 38px; height: 38px;
+    background: #ff4b5c;
+    color: #fff;
+    font-weight: bold;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.3s, background 0.3s;
+    z-index: 10;
+}
+.modal-close:hover {
+    background: #ff8787;
+    transform: rotate(90deg);
+}
+
+/* Imagen del modal */
+#modal-img {
+    width: 100%;
+    max-height: 65vh;
+    object-fit: contain;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    background: linear-gradient(145deg, #1c1c1c, #2c1c1c); /* Fondo como la página */
+    padding: 8px;
+    box-shadow: 0 0 25px rgba(255,75,92,0.7), inset 0 0 10px rgba(255,255,255,0.05);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+#modal-img:hover {
+    transform: scale(1.03) rotate(-0.5deg);
+    box-shadow: 0 0 35px rgba(255,75,92,0.9), inset 0 0 15px rgba(255,255,255,0.1);
+}
+
+/* Título y descripción */
+.modal-content h2 {
+    font-size: 2rem;
+    color: #ff6b6b;
+    margin-bottom: 12px;
+    text-shadow: 1px 1px 10px rgba(255,75,92,0.5);
+}
+
+.modal-content p {
+    font-size: 1rem;
+    margin-bottom: 20px;
+    color: #eee;
+    line-height: 1.5;
+}
+
+/* Botón comprar */
+.modal-content .btn {
+    background: #ff4b5c;
+    padding: 12px 25px;
+    border-radius: 15px;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.modal-content .btn::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+    transform: scale(0);
+    transition: transform 0.5s ease;
+    z-index: 0;
+}
+
+.modal-content .btn:hover::before {
+    transform: scale(1);
+}
+
+.modal-content .btn:hover {
+    background: #ff8787;
+    transform: scale(1.07);
+    box-shadow: 0 0 15px rgba(255,75,92,0.7);
+    color: #fff;
+}
+
+/* Responsive */
+@media(max-width:600px){
+    .modal-content{ width:95%; padding:20px; }
+    #modal-img{ max-height:50vh; }
+    .modal-content h2{ font-size:1.6rem; }
+    .modal-content p{ font-size:0.95rem; }
+}
+
+/* Sección elegante de WhatsApp */
+.whatsapp-section {
+    margin-top: 50px;
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    color: white;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0px 10px 35px rgba(0,0,0,0.25);
+    animation: fadeIn 0.6s ease-out;
+  }
+  
+  .whatsapp-section h3 {
+    font-size: 1.4rem;
+    margin-bottom: 18px;
+    font-weight: 700;
+  }
+  
+  .whatsapp-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 22px;
+    background: #25d366;
+    border-radius: 14px;
+    text-decoration: none;
+    color: white;
+    font-weight: 600;
+    gap: 12px;
+    transition: 0.3s;
+    box-shadow: 0px 6px 20px rgba(0,0,0,0.25);
+  }
+  
+  .whatsapp-button img {
+    width: 26px;
+  }
+  
+  .whatsapp-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 8px 25px rgba(0,0,0,0.35);
+  }
+  
+  @keyframes fadeIn {
+    from {opacity: 0; transform: translateY(10px);}
+    to   {opacity: 1; transform: translateY(0);}
+  }
+
+  /* -------- ESTILO EXCLUSIVO DEL MENSAJE -------- */
+
+.reyes-container {
+    max-width: 700px;
+    margin: 60px auto;
+    padding: 35px 45px;
+    background: rgba(255, 255, 255, 0.2); /* efecto cristal */
+    backdrop-filter: blur(12px);
+    border-radius: 28px;
+    position: relative;
+    box-shadow: 
+      0 8px 25px rgba(0, 0, 0, 0.15),
+      inset 0 0 30px rgba(255, 255, 255, 0.15);
+    border: 1.5px solid rgba(255, 255, 255, 0.5);
+  
+    animation: fadeInUp 0.9s ease forwards;
+  }
+  
+  /* ICONO SUPERIOR (decora con estilo "mágico") */
+  .reyes-icon {
+    position: absolute;
+    top: -22px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 28px;
+    background: #ffffff;
+    padding: 10px 14px;
+    border-radius: 50%;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    border: 2px solid #ffffff;
+    animation: floatStar 3s ease-in-out infinite;
+  }
+  
+  /* TEXTO PREMIUM */
+  .reyes-text {
+    font-family: "Georgia", "Times New Roman", serif;
+    font-size: 1.25rem;
+    line-height: 1.7;
+    color: #d8d8d8;
+    text-align: center;
+    letter-spacing: 0.3px;
+  }
+  
+  /* EFECTO DE APARICIÓN */
+  @keyframes fadeInUp {
+    0% {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* ANIMACIÓN DEL ICONO */
+  @keyframes floatStar {
+    0%   { transform: translateX(-50%) translateY(0px); }
+    50%  { transform: translateX(-50%) translateY(-8px); }
+    100% { transform: translateX(-50%) translateY(0px); }
+  }
+
+/* ------------------ BOTÓN INFO FIJO ------------------ */
+
+/* ---------------- BOTÓN INFO ESTÁTICO PREMIUM ---------------- */
+/* Botón fijo de información */
+.info-btn-premium {
+    position: absolute;
+    bottom: 30px;
+    left: 30px;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    font-size: 1.7rem;
+    font-weight: bold;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.10);
+    backdrop-filter: blur(12px);
+    box-shadow:
+        0 4px 18px rgba(0, 0, 0, 0.45),
+        inset 0 0 12px rgba(255, 255, 255, 0.15);
+    border: 2px solid rgba(255, 75, 92, 0.45);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: 0.35s ease;
+    animation: infoPulse 3s infinite ease-in-out;
+}
+
+.info-btn-premium:hover {
+    transform: scale(1.12) translateY(-3px);
+    box-shadow:
+        0 0 25px rgba(255, 75, 92, 0.75),
+        0 0 45px rgba(255, 75, 92, 0.35);
+    border-color: #ff8787;
+}
+
+@keyframes infoPulse {
+    0% { box-shadow: 0 0 12px rgba(255, 75, 92, 0.4); }
+    50% { box-shadow: 0 0 20px rgba(255, 75, 92, 0.7); }
+    100% { box-shadow: 0 0 12px rgba(255, 75, 92, 0.4); }
+}
+
+/* Modal */
+.info-modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(20, 20, 20, 0.85);
+    backdrop-filter: blur(6px);
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    transition: opacity .3s ease;
+}
+
+.info-modal.show {
+    display: flex;
+    animation: fadeIn .3s forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Contenido */
+.info-content {
+    background: rgba(44, 28, 28, 0.95);
+    padding: 25px 35px;
+    border-radius: 25px;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    color: #eee;
+    box-shadow: 0 0 30px rgba(255,75,92,0.5), inset 0 0 15px rgba(255,255,255,0.05);
+    transform: translateY(20px);
+    opacity: 0;
+    animation: contentUp .4s forwards ease;
+}
+
+@keyframes contentUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Cerrar */
+.info-close {
+    font-size: 2rem;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    cursor: pointer;
+    color: #ff8787;
+    transition: 0.3s;
+}
+
+.info-close:hover {
+    color: #ff4b5c;
+    transform: rotate(90deg);
+}
+
+/* Texto y títulos */
+.info-title {
+    font-size: 2rem;
+    color: #ff6b6b;
+    text-shadow: 0 0 10px rgba(255,75,92,0.5);
+    margin-bottom: 10px;
+}
+
+.info-subtitle {
+    font-size: 1.4rem;
+    color: #f0e6e6;
+    margin-bottom: 15px;
+    font-style: italic;
+}
+
+.info-text {
+    color: #eee;
+    font-size: 1.15rem;
+    line-height: 1.7;
+    margin-bottom: 20px;
+    text-align: center;
+    opacity: 0.9;
+}
+
+/* Botón dentro del modal */
+.info-content .btn {
+    background: #ff4b5c;
+    padding: 12px 25px;
+    border-radius: 15px;
+    font-weight: bold;
+    font-size: 1rem;
+    color: #fff;
+    cursor: pointer;
+    transition: 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.info-content .btn:hover {
+    background: #ff8787;
+    transform: scale(1.07);
+    box-shadow: 0 0 15px rgba(255,75,92,0.7);
+    color: #fff;
+}
+
+/* Animación del texto */
+@keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
+@keyframes infoPulse {
+    0% { box-shadow: 0 0 12px rgba(255,75,92,0.4);}
+    50% { box-shadow: 0 0 20px rgba(255,75,92,0.7);}
+    100% { box-shadow: 0 0 12px rgba(255,75,92,0.4);}
+}
+
+/* Responsive */
+@media(max-width:600px){
+    .info-content { padding: 20px; width: 95%; }
+    .info-title { font-size: 1.6rem; }
+    .info-subtitle { font-size: 1.1rem; }
+    .info-text { font-size: 1rem; }
+}
+  
+  /* En móvil: botón más pequeño y elevado */
+  @media (max-width: 600px) {
+    .floating-whatsapp {
+      width: 55px;
+      height: 55px;
+      bottom: 20px;
+      right: 20px;
+    }
+  }
+
+/* Responsive */
+@media(max-width:600px){
+    header h1{ font-size:2rem; }
+    header .subtitle{ font-size:1rem; }
+    #search,#sort{ width:90%; }
+    .modal-content{ margin:20% auto; }
+}
