@@ -604,7 +604,7 @@ footer { text-align:center; padding:40px 20px; opacity:0.8; }
 /* Botón fijo de información */
 .info-btn-premium {
     position: fixed;
-    bottom: 30px;
+    bottom: 10px;
     left: 30px;
     width: 58px;
     height: 58px;
