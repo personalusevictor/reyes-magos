@@ -603,7 +603,7 @@ footer { text-align:center; padding:40px 20px; opacity:0.8; }
 /* ---------------- BOTÓN INFO ESTÁTICO PREMIUM ---------------- */
 /* Botón fijo de información */
 .info-btn-premium {
-    position: absolute;
+    position: fixed;
     bottom: 30px;
     left: 30px;
     width: 58px;
