@@ -782,3 +782,11 @@ footer { text-align:center; padding:40px 20px; opacity:0.8; }
     #search,#sort{ width:90%; }
     .modal-content{ margin:20% auto; }
 }
+
+@media (hover: none) {
+    #openInfoModal:hover {
+        transform: none !important;
+        background: inherit !important;
+        filter: none !important;
+    }
+}

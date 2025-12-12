@@ -279,11 +279,14 @@ const infoCloseBtn = document.getElementById('closeInfoBtn');
 const modalinfoTitle = document.getElementById('modalinfoTitle');
 
 /*************** ABRIR ***************/
-infoBtn.addEventListener('click', () => {
+function abrirInfo() {
     infoModal.classList.add('show');
-    modalinfoTitle.textContent = "";  
+    modalinfoTitle.textContent = "";
     typeWriter(modalinfoTitle, "Mensaje Reyes Magos ✨");
-});
+}
+
+infoBtn.addEventListener('click', abrirInfo);
+infoBtn.addEventListener('touchstart', abrirInfo, { passive: true });
 
 /*************** EFECTO ESCRITURA — FIX ***************/
 function typeWriter(element, text, i = 0) {
