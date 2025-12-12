@@ -300,6 +300,8 @@ onPress(resetBtn, ()=>{
 /*************************************************
  * MODAL INFO (MENSAJE REYES MAGOS)
  *************************************************/
+let typewriterTimeout;
+
 function abrirInfo() {
     infoModal.classList.add('show');
     modalinfoTitle.textContent = "";
@@ -309,7 +311,10 @@ function abrirInfo() {
 function cerrarInfoModal(){
     infoModal.classList.remove("show");
     modalinfoTitle.textContent = "";
-    escribiendo = false;
+    if(typewriterTimeout) {
+        clearTimeout(typewriterTimeout);
+        typewriterTimeout = null;
+    }
 }
 
 onPress(infoBtn, abrirInfo);
@@ -319,18 +324,15 @@ onPress(infoModal, e => { if(e.target === infoModal) cerrarInfoModal(); });
 
 /*************** EFECTO ESCRITURA ***************/
 function typeWriter(element, text, i = 0) {
-    if (escribiendo) return;
-
-    escribiendo = true;
     element.textContent = "";
 
     function escribir() {
         if (i < text.length) {
             element.textContent += text.charAt(i);
             i++;
-            setTimeout(escribir, 50);
+            typewriterTimeout = setTimeout(escribir, 50);
         } else {
-            escribiendo = false;
+            typewriterTimeout = null;
         }
     }
 
