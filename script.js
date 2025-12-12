@@ -4,12 +4,11 @@
 let regalos = [];
 let likes = JSON.parse(localStorage.getItem("likes")) || {};
 let filtrosActivos = [];
-let escribiendo = false; // Para el efecto typewriter
 
 /*************************************************
  * REFERENCIAS DEL DOM
  *************************************************/
-// Modal de regalos
+// Modal
 const modal = document.getElementById("modal");
 const modalImg = document.getElementById("modal-img");
 const modalTitle = document.getElementById("modal-title");
@@ -24,34 +23,6 @@ const suggestionsPanel = document.getElementById("regalos-suggestions");
 
 // Orden
 const sortSelect = document.getElementById("sort");
-
-// Modal info
-const infoBtn = document.getElementById("openInfoModal");
-const infoModal = document.getElementById("infoModal");
-const infoClose = document.getElementById("closeInfoModal");
-const infoCloseBtn = document.getElementById("closeInfoBtn");
-const modalinfoTitle = document.getElementById("modalinfoTitle");
-
-/*************************************************
- * HELPER: GESTOR UNIVERSAL CLICK/TOUCH
- *************************************************/
-function onPress(element, handler) {
-    let touching = false;
-
-    element.addEventListener("touchstart", () => {
-        touching = true;
-    });
-
-    element.addEventListener("touchend", e => {
-        e.preventDefault();
-        handler(e);
-        touching = false;
-    });
-
-    element.addEventListener("click", e => {
-        if (!touching) handler(e);
-    });
-}
 
 /*************************************************
  * CARGAR JSON
@@ -85,18 +56,16 @@ function renderRegalos(lista){
             </div>
         `;
 
-        // Abrir modal al pulsar la tarjeta (excepto botones)
-        onPress(card, e => {
-            if (e.target.closest(".btn")) return;
+        card.addEventListener("click", e=>{
+            if(e.target.closest(".btn")) return;
             openModal(item);
         });
 
         cont.appendChild(card);
     });
 
-    // Likes
     document.querySelectorAll(".btn-like").forEach(btn=>{
-        onPress(btn, ()=>{
+        btn.addEventListener("click", ()=>{
             const id = btn.dataset.id;
             likes[id] = (likes[id] || 0) + 1;
             localStorage.setItem("likes", JSON.stringify(likes));
@@ -106,7 +75,7 @@ function renderRegalos(lista){
 }
 
 /*************************************************
- * MODAL REGALOS
+ * MODAL
  *************************************************/
 function openModal(item) {
     modalImg.src = item.foto;
@@ -115,7 +84,7 @@ function openModal(item) {
     modalLink.href = item.enlace;
 
     modal.style.display = 'flex';
-    void modal.offsetWidth; // Repaint
+    void modal.offsetWidth;
     modal.classList.add('show');
     document.body.style.overflow = 'hidden';
 }
@@ -128,15 +97,18 @@ function closeModal() {
     }, 250);
 }
 
-onPress(modalClose, closeModal);
-onPress(modal, e => { if(e.target === modal) closeModal(); });
+modalClose.addEventListener("click", closeModal);
+window.addEventListener("click", e => {
+    if(e.target === modal) closeModal();
+});
 
 /*************************************************
- * SUGERENCIAS BUSCADOR
+ * SUGERENCIAS PREMIUM (CON IMAGEN) — FIXEADO
  *************************************************/
 function actualizarSugerencias(lista){
     suggestionsPanel.innerHTML = "";
 
+    // No mostrar si no hay texto
     if (searchInput.value.trim() === "") {
         suggestionsPanel.classList.remove("show");
         return;
@@ -160,7 +132,7 @@ function actualizarSugerencias(lista){
             <span>${item.nombre}</span>
         `;
 
-        onPress(div, ()=>{
+        div.addEventListener("click", ()=>{
             searchInput.value = item.nombre;
             suggestionsPanel.classList.remove("show");
             aplicarFiltros();
@@ -191,7 +163,7 @@ searchInput.addEventListener("input", e=>{
     actualizarSugerencias(filtrados);
 });
 
-// Ocultar sugerencias al clicar fuera
+// Ocultar al hacer clic fuera
 document.addEventListener("click", e=>{
     if(!searchBox.contains(e.target)){
         suggestionsPanel.classList.remove("show");
@@ -225,7 +197,7 @@ function crearFiltroCategorias(lista){
         tag.style.cursor = "pointer";
         tag.style.transition = "0.3s";
 
-        onPress(tag, ()=>{
+        tag.addEventListener("click", ()=>{
             if(filtrosActivos.includes(cat)){
                 filtrosActivos = filtrosActivos.filter(f => f !== cat);
                 tag.style.background = "#2c1c1c";
@@ -271,7 +243,7 @@ sortSelect.addEventListener("change", e=>{
 });
 
 /*************************************************
- * BOTÓN RESET LIKES
+ * REINICIAR LIKES
  *************************************************/
 const resetBtn = document.createElement("button");
 resetBtn.textContent = "Reiniciar Likes";
@@ -291,50 +263,76 @@ Object.assign(resetBtn.style, {
 
 document.body.appendChild(resetBtn);
 
-onPress(resetBtn, ()=>{
+resetBtn.addEventListener("click", ()=>{
     likes = {};
     localStorage.setItem("likes", JSON.stringify(likes));
     aplicarFiltros();
 });
 
 /*************************************************
- * MODAL INFO (MENSAJE REYES MAGOS)
+ * MODAL INFO + MÁQUINA DE ESCRIBIR
  *************************************************/
-let typewriterTimeout;
 
-function abrirInfo() {
-    infoModal.classList.add('show');
-    modalinfoTitle.textContent = "";
-    typeWriter(modalinfoTitle, "Mensaje Reyes Magos ✨");
-}
+const infoBtn = document.getElementById('openInfoModal');
+const infoModal = document.getElementById('infoModal');
+const infoClose = document.getElementById('closeInfoModal');
+const infoCloseBtn = document.getElementById('closeInfoBtn');
+const modalinfoTitle = document.getElementById('modalinfoTitle');
 
-function cerrarInfoModal(){
-    infoModal.classList.remove("show");
-    modalinfoTitle.textContent = "";
-    if(typewriterTimeout) {
-        clearTimeout(typewriterTimeout);
-        typewriterTimeout = null;
-    }
-}
+let escribiendo = false;
 
-onPress(infoBtn, abrirInfo);
-onPress(infoClose, cerrarInfoModal);
-onPress(infoCloseBtn, cerrarInfoModal);
-onPress(infoModal, e => { if(e.target === infoModal) cerrarInfoModal(); });
-
-/*************** EFECTO ESCRITURA ***************/
+// FUNCION MÁQUINA DE ESCRIBIR
 function typeWriter(element, text, i = 0) {
     element.textContent = "";
+    escribiendo = true;
 
     function escribir() {
         if (i < text.length) {
             element.textContent += text.charAt(i);
             i++;
-            typewriterTimeout = setTimeout(escribir, 50);
+            setTimeout(escribir, 50);
         } else {
-            typewriterTimeout = null;
+            escribiendo = false;
         }
     }
 
     escribir();
 }
+
+// ABRIR MODAL INFO
+infoBtn.addEventListener('click', () => {
+    infoModal.style.display = 'flex';       // Asegura que sea visible
+    void infoModal.offsetWidth;              // Forzar reflow para que se aplique la animación
+    infoModal.classList.add('show');         // Animación de difuminado
+    modalinfoTitle.textContent = "";         // Limpiar texto
+    escribiendo = false;                     // Reiniciar la variable
+    typeWriter(modalinfoTitle, "Mensaje Reyes Magos ✨");
+    document.body.style.overflow = 'hidden'; // Evitar scroll detrás del modal
+});
+
+// CERRAR MODAL INFO
+function cerrarInfoModal(){
+    infoModal.classList.remove("show");      // Quitar clase para animación de salida
+    document.body.style.overflow = 'auto';   // Restaurar scroll
+    setTimeout(() => {
+        infoModal.style.display = 'none';    // Ocultar después de la transición
+        modalinfoTitle.textContent = "";     // Limpiar texto
+        escribiendo = false;                 // Reiniciar variable
+    }, 250); // Duración debe coincidir con tu CSS de transición
+}
+
+// EVENTOS DE CIERRE
+infoClose.addEventListener('click', cerrarInfoModal);
+infoCloseBtn.addEventListener('click', cerrarInfoModal);
+
+// CIERRE AL HACER CLICK FUERA DEL MODAL
+infoModal.addEventListener('click', e => {
+    if(e.target === infoModal) cerrarInfoModal();
+});
+
+// OPCIONAL: ESCAPE PARA CERRAR MODAL (útil en escritorio y móvil con teclado)
+document.addEventListener('keydown', e => {
+    if (e.key === "Escape" && infoModal.classList.contains('show')) {
+        cerrarInfoModal();
+    }
+});
