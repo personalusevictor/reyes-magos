@@ -4,11 +4,12 @@
 let regalos = [];
 let likes = JSON.parse(localStorage.getItem("likes")) || {};
 let filtrosActivos = [];
+let escribiendo = false; // Para el efecto typewriter
 
 /*************************************************
- * REFERENCIAS DOM
+ * REFERENCIAS DEL DOM
  *************************************************/
-// Modal principal
+// Modal de regalos
 const modal = document.getElementById("modal");
 const modalImg = document.getElementById("modal-img");
 const modalTitle = document.getElementById("modal-title");
@@ -16,32 +17,39 @@ const modalDescription = document.getElementById("modal-description");
 const modalLink = document.getElementById("modal-link");
 const modalClose = document.getElementById("modal-close");
 
-// Modal Info
-const infoModal = document.getElementById("infoModal");
-const infoBtn = document.getElementById("openInfoModal");
-const infoClose = document.getElementById("closeInfoModal");
-const infoCloseBtn = document.getElementById("closeInfoBtn");
-const infoTitle = document.getElementById("modalinfoTitle");
-
 // Buscador
-const searchInput = document.getElementById("search");
 const searchBox = document.querySelector(".search-box");
+const searchInput = document.getElementById("search");
 const suggestionsPanel = document.getElementById("regalos-suggestions");
 
 // Orden
 const sortSelect = document.getElementById("sort");
 
+// Modal info
+const infoBtn = document.getElementById("openInfoModal");
+const infoModal = document.getElementById("infoModal");
+const infoClose = document.getElementById("closeInfoModal");
+const infoCloseBtn = document.getElementById("closeInfoBtn");
+const modalinfoTitle = document.getElementById("modalinfoTitle");
+
 /*************************************************
- * FIX MOVIL — UTILIDAD ÚNICA
+ * HELPER: GESTOR UNIVERSAL CLICK/TOUCH
  *************************************************/
-function addSafeClickListener(element, handler) {
-    let locked = false;
+function onPress(element, handler) {
+    let touching = false;
+
+    element.addEventListener("touchstart", () => {
+        touching = true;
+    });
+
+    element.addEventListener("touchend", e => {
+        e.preventDefault();
+        handler(e);
+        touching = false;
+    });
 
     element.addEventListener("click", e => {
-        if (locked) return;
-        locked = true;
-        handler(e);
-        setTimeout(() => locked = false, 350);
+        if (!touching) handler(e);
     });
 }
 
@@ -57,9 +65,9 @@ fetch("data.json")
   });
 
 /*************************************************
- * RENDER TARJETAS
+ * RENDER DE TARJETAS
  *************************************************/
-function renderRegalos(lista) {
+function renderRegalos(lista){
     const cont = document.getElementById("gift-container");
     cont.innerHTML = "";
 
@@ -73,14 +81,12 @@ function renderRegalos(lista) {
             <div class="description">${item.descripcion}</div>
             <div class="button-area">
                 <a href="${item.enlace}" target="_blank" class="btn btn-comprar">Enlace de Compra</a>
-                <button class="btn btn-like" data-id="${item.id}">
-                    ❤️ <span id="likes-${item.id}">${likes[item.id] || 0}</span>
-                </button>
+                <button class="btn btn-like" data-id="${item.id}">❤️ <span id="likes-${item.id}">${likes[item.id] || 0}</span></button>
             </div>
         `;
 
-        // Abrir modal al tocar tarjeta
-        addSafeClickListener(card, e => {
+        // Abrir modal al pulsar la tarjeta (excepto botones)
+        onPress(card, e => {
             if (e.target.closest(".btn")) return;
             openModal(item);
         });
@@ -89,8 +95,8 @@ function renderRegalos(lista) {
     });
 
     // Likes
-    document.querySelectorAll(".btn-like").forEach(btn => {
-        addSafeClickListener(btn, () => {
+    document.querySelectorAll(".btn-like").forEach(btn=>{
+        onPress(btn, ()=>{
             const id = btn.dataset.id;
             likes[id] = (likes[id] || 0) + 1;
             localStorage.setItem("likes", JSON.stringify(likes));
@@ -100,7 +106,7 @@ function renderRegalos(lista) {
 }
 
 /*************************************************
- * MODAL PRINCIPAL
+ * MODAL REGALOS
  *************************************************/
 function openModal(item) {
     modalImg.src = item.foto;
@@ -108,67 +114,27 @@ function openModal(item) {
     modalDescription.textContent = item.descripcion;
     modalLink.href = item.enlace;
 
-    modal.style.display = "flex";
-    void modal.offsetWidth;
-    modal.classList.add("show");
-
-    document.body.style.overflow = "hidden";
+    modal.style.display = 'flex';
+    void modal.offsetWidth; // Repaint
+    modal.classList.add('show');
+    document.body.style.overflow = 'hidden';
 }
 
 function closeModal() {
-    modal.classList.remove("show");
-    setTimeout(() => {
-        modal.style.display = "none";
-        document.body.style.overflow = "auto";
+    modal.classList.remove('show');
+    setTimeout(()=>{
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
     }, 250);
 }
 
-addSafeClickListener(modalClose, closeModal);
-
-modal.addEventListener("click", e => {
-    if (e.target === modal) closeModal();
-});
+onPress(modalClose, closeModal);
+onPress(modal, e => { if(e.target === modal) closeModal(); });
 
 /*************************************************
- * MODAL INFO
+ * SUGERENCIAS BUSCADOR
  *************************************************/
-addSafeClickListener(infoBtn, () => {
-    infoTitle.textContent = ""; // Reset
-    infoModal.classList.add("show");
-    typeWriter(infoTitle, "Mensaje de Víctor ✨");
-});
-
-addSafeClickListener(infoClose, () => {
-    infoModal.classList.remove("show");
-    infoTitle.textContent = "";
-});
-
-addSafeClickListener(infoCloseBtn, () => {
-    infoModal.classList.remove("show");
-    infoTitle.textContent = "";
-});
-
-infoModal.addEventListener("click", e => {
-    if (e.target === infoModal) {
-        infoModal.classList.remove("show");
-        infoTitle.textContent = "";
-    }
-});
-
-/*************************************************
- * ANIMACIÓN TYPEWRITER
- *************************************************/
-function typeWriter(element, text, i = 0) {
-    if (i < text.length) {
-        element.textContent += text.charAt(i);
-        setTimeout(() => typeWriter(element, text, i + 1), 50);
-    }
-}
-
-/*************************************************
- * SUGERENCIAS PREMIUM
- *************************************************/
-function actualizarSugerencias(lista) {
+function actualizarSugerencias(lista){
     suggestionsPanel.innerHTML = "";
 
     if (searchInput.value.trim() === "") {
@@ -176,7 +142,7 @@ function actualizarSugerencias(lista) {
         return;
     }
 
-    if (lista.length === 0) {
+    if (lista.length === 0){
         const empty = document.createElement("div");
         empty.textContent = "No se encontraron resultados";
         empty.className = "suggestion empty";
@@ -190,11 +156,11 @@ function actualizarSugerencias(lista) {
         div.className = "suggestion";
 
         div.innerHTML = `
-            <img src="${item.foto}">
+            <img src="${item.foto}" alt="${item.nombre}">
             <span>${item.nombre}</span>
         `;
 
-        addSafeClickListener(div, () => {
+        onPress(div, ()=>{
             searchInput.value = item.nombre;
             suggestionsPanel.classList.remove("show");
             aplicarFiltros();
@@ -206,15 +172,18 @@ function actualizarSugerencias(lista) {
     suggestionsPanel.classList.add("show");
 }
 
-searchInput.addEventListener("input", e => {
+/*************************************************
+ * EVENTOS DEL BUSCADOR
+ *************************************************/
+searchInput.addEventListener("input", e=>{
     const texto = e.target.value.trim().toLowerCase();
 
-    let filtrados = regalos.filter(r =>
-        r.nombre.toLowerCase().includes(texto) ||
+    let filtrados = regalos.filter(r => 
+        r.nombre.toLowerCase().includes(texto) || 
         r.descripcion.toLowerCase().includes(texto)
     );
 
-    if (filtrosActivos.length > 0) {
+    if(filtrosActivos.length > 0){
         filtrados = filtrados.filter(r => filtrosActivos.includes(r.categoria));
     }
 
@@ -222,9 +191,9 @@ searchInput.addEventListener("input", e => {
     actualizarSugerencias(filtrados);
 });
 
-// Ocultar sugerencias al click fuera
-document.addEventListener("click", e => {
-    if (!searchBox.contains(e.target)) {
+// Ocultar sugerencias al clicar fuera
+document.addEventListener("click", e=>{
+    if(!searchBox.contains(e.target)){
         suggestionsPanel.classList.remove("show");
     }
 });
@@ -232,10 +201,15 @@ document.addEventListener("click", e => {
 /*************************************************
  * FILTROS POR CATEGORÍA
  *************************************************/
-function crearFiltroCategorias(lista) {
+function crearFiltroCategorias(lista){
     const container = document.createElement("div");
     container.id = "filter-tags";
-    container.className = "tags-container";
+    container.style.display = "flex";
+    container.style.flexWrap = "wrap";
+    container.style.gap = "10px";
+    container.style.justifyContent = "center";
+    container.style.margin = "20px 0";
+
     document.body.insertBefore(container, document.getElementById("gift-container"));
 
     const categorias = [...new Set(lista.map(r => r.categoria).filter(Boolean))];
@@ -244,14 +218,20 @@ function crearFiltroCategorias(lista) {
         const tag = document.createElement("div");
         tag.className = "filter-tag";
         tag.textContent = cat;
+        tag.style.padding = "8px 15px";
+        tag.style.borderRadius = "25px";
+        tag.style.background = "#2c1c1c";
+        tag.style.color = "#fff";
+        tag.style.cursor = "pointer";
+        tag.style.transition = "0.3s";
 
-        addSafeClickListener(tag, () => {
-            if (filtrosActivos.includes(cat)) {
+        onPress(tag, ()=>{
+            if(filtrosActivos.includes(cat)){
                 filtrosActivos = filtrosActivos.filter(f => f !== cat);
-                tag.classList.remove("active");
+                tag.style.background = "#2c1c1c";
             } else {
                 filtrosActivos.push(cat);
-                tag.classList.add("active");
+                tag.style.background = "#ff4b5c";
             }
             aplicarFiltros();
         });
@@ -260,15 +240,15 @@ function crearFiltroCategorias(lista) {
     });
 }
 
-function aplicarFiltros() {
+function aplicarFiltros(){
     const texto = searchInput.value.toLowerCase();
 
-    let filtrados = regalos.filter(r =>
+    let filtrados = regalos.filter(r => 
         r.nombre.toLowerCase().includes(texto) ||
         r.descripcion.toLowerCase().includes(texto)
     );
 
-    if (filtrosActivos.length > 0) {
+    if(filtrosActivos.length > 0){
         filtrados = filtrados.filter(r => filtrosActivos.includes(r.categoria));
     }
 
@@ -278,30 +258,81 @@ function aplicarFiltros() {
 /*************************************************
  * ORDENAR
  *************************************************/
-addSafeClickListener(sortSelect, () => {
+sortSelect.addEventListener("change", e=>{
     let copia = [...regalos];
 
-    if (sortSelect.value === "likes") {
-        copia.sort((a, b) => (likes[b.id] || 0) - (likes[a.id] || 0));
-    }
-    if (sortSelect.value === "nombre") {
-        copia.sort((a, b) => a.nombre.localeCompare(b.nombre));
-    }
+    if(e.target.value === "likes") 
+        copia.sort((a,b)=>(likes[b.id]||0)-(likes[a.id]||0));
+
+    if(e.target.value === "nombre") 
+        copia.sort((a,b)=>a.nombre.localeCompare(b.nombre));
 
     renderRegalos(copia);
 });
 
 /*************************************************
- * BOTÓN REINICIAR LIKES
+ * BOTÓN RESET LIKES
  *************************************************/
 const resetBtn = document.createElement("button");
 resetBtn.textContent = "Reiniciar Likes";
-resetBtn.className = "reset-likes";
 
-addSafeClickListener(resetBtn, () => {
+Object.assign(resetBtn.style, {
+    position:"fixed",
+    top:"20px",
+    right:"20px",
+    padding:"10px 15px",
+    zIndex:"10000",
+    background:"#ff4b5c",
+    color:"#fff",
+    border:"none",
+    borderRadius:"10px",
+    cursor:"pointer"
+});
+
+document.body.appendChild(resetBtn);
+
+onPress(resetBtn, ()=>{
     likes = {};
     localStorage.setItem("likes", JSON.stringify(likes));
     aplicarFiltros();
 });
 
-document.body.appendChild(resetBtn);
+/*************************************************
+ * MODAL INFO (MENSAJE REYES MAGOS)
+ *************************************************/
+function abrirInfo() {
+    infoModal.classList.add('show');
+    modalinfoTitle.textContent = "";
+    typeWriter(modalinfoTitle, "Mensaje Reyes Magos ✨");
+}
+
+function cerrarInfoModal(){
+    infoModal.classList.remove("show");
+    modalinfoTitle.textContent = "";
+    escribiendo = false;
+}
+
+onPress(infoBtn, abrirInfo);
+onPress(infoClose, cerrarInfoModal);
+onPress(infoCloseBtn, cerrarInfoModal);
+onPress(infoModal, e => { if(e.target === infoModal) cerrarInfoModal(); });
+
+/*************** EFECTO ESCRITURA ***************/
+function typeWriter(element, text, i = 0) {
+    if (escribiendo) return;
+
+    escribiendo = true;
+    element.textContent = "";
+
+    function escribir() {
+        if (i < text.length) {
+            element.textContent += text.charAt(i);
+            i++;
+            setTimeout(escribir, 50);
+        } else {
+            escribiendo = false;
+        }
+    }
+
+    escribir();
+}
