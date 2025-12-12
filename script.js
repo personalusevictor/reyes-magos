@@ -4,11 +4,12 @@
 let regalos = [];
 let likes = JSON.parse(localStorage.getItem("likes")) || {};
 let filtrosActivos = [];
+let escribiendo = false; // ← FIX para evitar duplicación en modal info
 
 /*************************************************
  * REFERENCIAS DEL DOM
  *************************************************/
-// Modal
+// Modal de regalos
 const modal = document.getElementById("modal");
 const modalImg = document.getElementById("modal-img");
 const modalTitle = document.getElementById("modal-title");
@@ -75,7 +76,7 @@ function renderRegalos(lista){
 }
 
 /*************************************************
- * MODAL
+ * MODAL REGALOS
  *************************************************/
 function openModal(item) {
     modalImg.src = item.foto;
@@ -103,12 +104,11 @@ window.addEventListener("click", e => {
 });
 
 /*************************************************
- * SUGERENCIAS PREMIUM (CON IMAGEN) — FIXEADO
+ * SUGERENCIAS PREMIUM
  *************************************************/
 function actualizarSugerencias(lista){
     suggestionsPanel.innerHTML = "";
 
-    // No mostrar si no hay texto
     if (searchInput.value.trim() === "") {
         suggestionsPanel.classList.remove("show");
         return;
@@ -163,7 +163,7 @@ searchInput.addEventListener("input", e=>{
     actualizarSugerencias(filtrados);
 });
 
-// Ocultar al hacer clic fuera
+// Ocultar sugerencias
 document.addEventListener("click", e=>{
     if(!searchBox.contains(e.target)){
         suggestionsPanel.classList.remove("show");
@@ -243,7 +243,7 @@ sortSelect.addEventListener("change", e=>{
 });
 
 /*************************************************
- * REINICIAR LIKES
+ * BOTÓN RESET LIKES
  *************************************************/
 const resetBtn = document.createElement("button");
 resetBtn.textContent = "Reiniciar Likes";
@@ -269,38 +269,52 @@ resetBtn.addEventListener("click", ()=>{
     aplicarFiltros();
 });
 
+/*************************************************
+ * MODAL INFO (MENSAJE REYES MAGOS)
+ *************************************************/
 const infoBtn = document.getElementById('openInfoModal');
 const infoModal = document.getElementById('infoModal');
 const infoClose = document.getElementById('closeInfoModal');
 const infoCloseBtn = document.getElementById('closeInfoBtn');
 const modalinfoTitle = document.getElementById('modalinfoTitle');
 
+/*************** ABRIR ***************/
 infoBtn.addEventListener('click', () => {
     infoModal.classList.add('show');
+    modalinfoTitle.textContent = "";  
     typeWriter(modalinfoTitle, "Mensaje Reyes Magos ✨");
 });
 
-infoClose.addEventListener('click', () => {
-    infoModal.classList.remove('show');
-    modalinfoTitle.textContent = '';
-});
-
-infoCloseBtn.addEventListener('click', () => {
-    infoModal.classList.remove('show');
-    modalinfoTitle.textContent = '';
-});
-
-// Cerrar modal al hacer clic fuera del contenido
-infoModal.addEventListener('click', e => {
-    if (e.target === infoModal) {
-        infoModal.classList.remove('show');
-    }
-});
-
-// Máquina de escribir para título
+/*************** EFECTO ESCRITURA — FIX ***************/
 function typeWriter(element, text, i = 0) {
-    if(i < text.length){
-        element.textContent += text.charAt(i);
-        setTimeout(() => typeWriter(element, text, i+1), 50);
+    if (escribiendo) return;
+
+    escribiendo = true;
+    element.textContent = "";
+
+    function escribir() {
+        if (i < text.length) {
+            element.textContent += text.charAt(i);
+            i++;
+            setTimeout(escribir, 50);
+        } else {
+            escribiendo = false;
+        }
     }
+
+    escribir();
 }
+
+/*************** CERRAR ***************/
+function cerrarInfoModal(){
+    infoModal.classList.remove("show");
+    modalinfoTitle.textContent = "";
+    escribiendo = false;
+}
+
+infoClose.addEventListener('click', cerrarInfoModal);
+infoCloseBtn.addEventListener('click', cerrarInfoModal);
+
+infoModal.addEventListener('click', e => {
+    if (e.target === infoModal) cerrarInfoModal();
+});
