@@ -1,3 +1,5 @@
+const snowContent = ['&#10052;', '&#10053;', '&#10054;']; // Copos de nieve
+
 /*************************************************
  * JSONBIN CONFIG (likes compartidos online)
  *************************************************/
@@ -305,33 +307,6 @@ sortSelect.addEventListener("change", e => {
 });
 
 /*************************************************
- * REINICIAR LIKES ONLINE
- *************************************************/
-const resetBtn = document.createElement("button");
-resetBtn.textContent = "Reiniciar Likes";
-
-Object.assign(resetBtn.style, {
-    position: "fixed",
-    top: "20px",
-    right: "20px",
-    padding: "10px 15px",
-    zIndex: "10000",
-    background: "#ff4b5c",
-    color: "#fff",
-    border: "none",
-    borderRadius: "10px",
-    cursor: "pointer"
-});
-
-document.body.appendChild(resetBtn);
-
-resetBtn.addEventListener("click", async () => {
-    likes = {};
-    await guardarLikesOnline();
-    aplicarFiltros();
-});
-
-/*************************************************
  * MODAL INFO
  *************************************************/
 function typeWriter(element, text, i = 0) {
@@ -386,3 +361,36 @@ document.addEventListener("keydown", e => {
     if (e.key === "Escape" && infoModal.classList.contains("show"))
         cerrarInfoModal();
 });
+
+const snowContainer = document.getElementById('snow-container');
+const snowflakeCount = 40;
+const snowflakes = [];
+
+for (let i = 0; i < snowflakeCount; i++) {
+    const flake = document.createElement('div');
+    flake.className = 'snowflake';
+    flake.innerHTML = snowContent[Math.floor(Math.random() * snowContent.length)];
+    flake.style.left = Math.random() * window.innerWidth + 'px';
+    flake.style.top = Math.random() * window.innerHeight + 'px';
+    flake.speed = 1 + Math.random() * 2;
+    flake.wind = Math.random() * 1 - 0.5;
+    snowContainer.appendChild(flake);
+    snowflakes.push(flake);
+}
+
+function animateSnow() {
+    snowflakes.forEach(flake => {
+        let top = parseFloat(flake.style.top);
+        let left = parseFloat(flake.style.left);
+        top += flake.speed;
+        left += flake.wind;
+        if (top > window.innerHeight) top = -20; 
+        if (left > window.innerWidth) left = 0;
+        if (left < 0) left = window.innerWidth;
+        flake.style.top = top + 'px';
+        flake.style.left = left + 'px';
+    });
+    requestAnimationFrame(animateSnow);
+}
+
+animateSnow();
