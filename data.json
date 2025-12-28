@@ -1,31 +1,31 @@
 [
     {
         "id": 1,
-        "nombre": "Sony WH1000XM5",
-        "foto": "img/wh1000xm5.png",
-        "descripcion": "Auriculares inalámbricos con cancelación de ruido y hasta 30 horas de duración.",
-        "enlace": "https://www.pccomponentes.com/sony-wh1000xm5bce7-auriculares-inalambricos-con-cancelacion-de-ruido-negros"
-    },
-    {
-        "id": 2,
         "nombre": "iPad Air 11'' 256GB/512GB",
         "foto": "img/iPad-Air.png",
         "descripcion": "iPad Air 11'' 256GB/512GB para realizar mis tareas, programar y ver mis series.",
         "enlace": "https://www.pccomponentes.com/tablet-apple-ipad-air-2025-wifi-11-256gb-gris-espacial"
     },
+		{
+			"id": 2,
+			"nombre": "Soporte para iPad",
+			"foto": "img/soporteiPad.png",
+			"descripcion": "Soporte de Aluminitio ajustable para iPad Air 11'' (En caso de que los reyes magos me regalen el iPad), 1ª Opción Alixpress",
+			"enlace": "https://es.aliexpress.com/item/1005010450406298.html?"
+		},
+		{
+			"id": 3,
+			"nombre": "Apple Pencil Pro",
+			"foto": "img/apple-pencil.png",
+			"descripcion": "Apple Pencil para el iPad",
+			"enlace": "https://www.pccomponentes.com/apple-pencil-pro"
+		},
     {
-        "id": 3,
+        "id": 4,
         "nombre": "MaGo Power Bank",
         "foto": "img/powerbank.png",
         "descripcion": "Cargador portatil para iPhone (no tiene porque ser este, pongo este por poner uno que me haya interesado)",
         "enlace": "https://www.pccomponentes.com/anker-maggo-powerbank-10000mah-magnetica-qi2-ultra-slim-negra?srsltid=AfmBOoqOC1ZpJlnOCv6RxaeZvp18swgTrTizLzlJoMjf5mRlSWbeY0qN"
-    },
-    {
-        "id": 4,
-        "nombre": "Soporte para iPad",
-        "foto": "img/soporteiPad.png",
-        "descripcion": "Soporte de Aluminitio ajustable para iPad Air 11'' (En caso de que los reyes magos me regalen el iPad), 1ª Opción Alixpress",
-        "enlace": "https://es.aliexpress.com/item/1005010450406298.html?"
     },
     {
         "id": 5,
@@ -61,5 +61,12 @@
         "foto": "img/usbwireless.png",
         "descripcion": "USB para que mi ordenador permita conexiones Bluetooth",
         "enlace": "https://www.pccomponentes.com/mercusys-ma530-adaptador-nano-usb-bluetooth-53"
-    }
+    },
+		{
+			"id": 10,
+			"nombre": "BenQ G-TR L Base (Alfombrilla)",
+			"foto": "img/alfombrilla.png",
+			"descripcion": "Alfombrilla de ratón",
+			"enlace": "https://www.pccomponentes.com/alfombrilla-gaming-benq-g-tr-l-base-antiderrapante-tela-caucho-470x390mm-negra"
+		}
 ]
